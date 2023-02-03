@@ -1,0 +1,22 @@
+{
+  "name": "lumy/github-issues-creator",
+  "description": "When an error occurs in your php application, automatically create a GitHub issue.",
+  "autoload": {
+    "psr-4": {
+      "lumy\\GitHubIssueCreator\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Rhys Adams",
+      "email": "hello@rhys.me",
+      "homepage": "https://20g.io",
+      "role": "DevOps Engineer"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "ext-curl": "*",
+    "ext-json": "*"
+  }
+}
