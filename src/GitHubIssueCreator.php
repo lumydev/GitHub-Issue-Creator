@@ -1,6 +1,6 @@
 <?php
 
-namespace lumydev\GitHubIssueCreator;
+namespace lumydev;
 
 use Exception;
 
