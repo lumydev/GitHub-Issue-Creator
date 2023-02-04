@@ -1,5 +1,5 @@
 {
-  "name": "lumy/github-issues-creator",
+  "name": "lumydev/github-issues-creator",
   "description": "When an error occurs in your php application, automatically create a GitHub issue.",
   "autoload": {
     "psr-4": {
