@@ -16,21 +16,18 @@ class GitHubIssueCreator
     public $issueLabels;
 
 
-    public function __construct(string $repositoryOwner, string $repositoryName, string $personalAccessToken, string $issueTitle, string $issueBody, array $issueLabels)
+    public function __construct(string $repositoryOwner, string $repositoryName, string $personalAccessToken)
     {
         $this->repositoryOwner = $repositoryOwner;
         $this->repositoryName = $repositoryName;
         $this->personalAccessToken = $personalAccessToken;
-        $this->issueTitle = htmlentities($issueTitle, ENT_QUOTES, 'UTF-8');
-        $this->issueBody = htmlentities($issueBody, ENT_QUOTES, 'UTF-8');
-        $this->issueLabels = $issueLabels;
     }
 
-    public function create() : string
+    public function create(string $issueTitle, string $issueBody, array $issueLabels, bool $disableResponse = true) : string
     {
 
         try {
-            $post = '{"title":"'. $this->issueTitle .'","body":"' . $this->issueBody . '","labels":'.json_encode($this->issueLabels).'}';
+            $post = '{"title":"'. $issueTitle .'","body":"' . $issueBody . '","labels":'.json_encode($issueLabels).'}';
 
             $headers = [
                 'User-Agent: PHP',
@@ -49,11 +46,18 @@ class GitHubIssueCreator
 
             $response = json_decode(curl_exec($ch));
 
-            if (isset($response->message) && !empty($response->message)) {
+            if (isset($response->message) && !empty($response->message) && !$disableResponse) {
                 throw new Exception("GitHub failed to proccess your request. The error message returned is: \"{$response->message}\". This is usually an error with your token key and/or your repo owner / repo name you provided.");
+            }else{
+                return false;
             }
 
-            return "Issue created: {$response->html_url}";
+            if(!$disableResponse){
+                return "Issue created: {$response->html_url}";
+            }
+
+            return true;
+
         } catch (Exception $e) {
             return $e->getMessage();
         }
